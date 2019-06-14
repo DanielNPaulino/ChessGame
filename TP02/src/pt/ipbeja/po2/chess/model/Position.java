@@ -1,5 +1,7 @@
 package pt.ipbeja.po2.chess.model;
 
+import java.util.Objects;
+
 /**
  * @author Filipe Gonçalves (6050), Daniel Paulino (14056)
  * @version 29/05/2019
@@ -10,11 +12,6 @@ public class Position {
     public Position(int line, int col) {
         this.line = line;
         this.col = col;
-    }
-
-    @Override
-    public String toString() {
-        return "(" + line + ", " + col + ")";
     }
 
     /**
@@ -51,5 +48,28 @@ public class Position {
     public static boolean isInside(int line, int col) {
         return 0 <= line && line < 8 &&
                 0 <= col && col < 8;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position = (Position) o;
+        return line == position.line &&
+                col == position.col;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(line, col);
+    }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "line=" + line +
+                ", col=" + col +
+                '}';
     }
 }

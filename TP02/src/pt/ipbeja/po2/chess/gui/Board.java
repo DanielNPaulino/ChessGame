@@ -1,17 +1,13 @@
 package pt.ipbeja.po2.chess.gui;
 
-import com.sun.prism.paint.Color;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ChoiceDialog;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import pt.ipbeja.po2.chess.model.ChessBoard;
-import pt.ipbeja.po2.chess.model.PlayerColor;
 import pt.ipbeja.po2.chess.model.Position;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +22,7 @@ public class Board extends VBox implements View {
     private ChessBoard gameModel;
     private GridPane gridPane = new GridPane();
     private Position pos;
-    private PlayerColor playerColor;
+   // private PlayerColor playerColor;
     private List<Position> possibleMoves = new ArrayList<>();
     private List<Position> possibleTakes = new ArrayList<>();
 
@@ -37,7 +33,6 @@ public class Board extends VBox implements View {
         this.gameModel = new ChessBoard(this);
         this.drawBoard();
         this.getChildren().add(gridPane);
-
     }
 
     /**
@@ -62,9 +57,12 @@ public class Board extends VBox implements View {
     /**
      * set the image / text on the buttons
      */
-    @Override
     public void updateButtonImages() {
         this.buildPiecesLayOut();
+        this.updateBoard();
+    }
+
+    private void updateBoard() {
         if (this.chosenPieces == 2) {
             this.updateWhiteImage();
             this.updateBlackImage();
@@ -73,150 +71,8 @@ public class Board extends VBox implements View {
             this.updateWhiteText();
             this.updateBlackText();
         }
+
     }
-
-    private void updateBoard() {
-        for (int i = 0; i < this.gameModel.getSIZE(); i++) {
-            for (int j = 0; j < this.gameModel.getSIZE(); j++) {
-
-
-            }
-        }
-    }
-
-
-    /**
-     * update the buttons where the white pieces are with images.
-     */
-    private void updateWhiteImage() {
-        for (int i = 0; i < this.gameModel.getSIZE(); i++) {
-            for (int j = 0; j < this.gameModel.getSIZE(); j++) {
-                if (this.gameModel.getPiece(i, j) == null) {
-                } else {
-                    switch (this.gameModel.getPiece(i, j).getColorAndType()) {
-                        case "White Rook":
-                            this.buttons[i][j].setWhiteRook();
-                            break;
-                        case "White Pawn":
-                            this.buttons[i][j].setWhitePawn();
-                            break;
-                        case "White King":
-                            this.buttons[i][j].setWhiteKing();
-                            break;
-                        case "White Queen":
-                            this.buttons[i][j].setWhiteQueen();
-                            break;
-                        case "White Bishop":
-                            this.buttons[i][j].setWhiteBishop();
-                            break;
-                        case "White Knight":
-                            this.buttons[i][j].setWhiteHorse();
-                            break;
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * update the buttons where the black pieces are with images.
-     */
-    private void updateBlackImage() {
-        for (int i = 0; i < this.gameModel.getSIZE(); i++) {
-            for (int j = 0; j < this.gameModel.getSIZE(); j++) {
-                if (this.gameModel.getPiece(i, j) == null) {
-                } else {
-                    switch (this.gameModel.getPiece(i, j).getColorAndType()) {
-                        case "Black Rook":
-                            this.buttons[i][j].setBlackRook();
-                            break;
-                        case "Black Pawn":
-                            this.buttons[i][j].setBlackPawn();
-                            break;
-                        case "Black King":
-                            this.buttons[i][j].setBlackKing();
-                            break;
-                        case "Black Queen":
-                            this.buttons[i][j].setBlackQueen();
-                            break;
-                        case "Black Bishop":
-                            this.buttons[i][j].setBlackBishop();
-                            break;
-                        case "Black Knight":
-                            this.buttons[i][j].setBlackHorse();
-                            break;
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * update the buttons where the white pieces are with text.
-     */
-    private void updateWhiteText() {
-        for (int i = 0; i < this.gameModel.getSIZE(); i++) {
-            for (int j = 0; j < this.gameModel.getSIZE(); j++) {
-                if (this.gameModel.getPiece(i, j) == null) {
-                } else {
-                    switch (this.gameModel.getPiece(i, j).getColorAndType()) {
-                        case "White Rook":
-                            this.buttons[i][j].setText("B T");
-                            break;
-                        case "White Pawn":
-                            this.buttons[i][j].setText("B p");
-                            break;
-                        case "White King":
-                            this.buttons[i][j].setText("B R");
-                            break;
-                        case "White Queen":
-                            this.buttons[i][j].setText("B D");
-                            break;
-                        case "White Bishop":
-                            this.buttons[i][j].setText("B B");
-                            break;
-                        case "White Knight":
-                            this.buttons[i][j].setText("B C");
-                            break;
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * update the buttons where the black pieces are with text.
-     */
-    private void updateBlackText() {
-        for (int i = 0; i < this.gameModel.getSIZE(); i++) {
-            for (int j = 0; j < this.gameModel.getSIZE(); j++) {
-                if (this.gameModel.getPiece(i, j) == null) {
-                } else {
-                    switch (this.gameModel.getPiece(i, j).getColorAndType()) {
-                        case "Black Rook":
-                            this.buttons[i][j].setText("P T");
-                            break;
-                        case "Black Pawn":
-                            this.buttons[i][j].setText("P p");
-                            break;
-                        case "Black King":
-                            this.buttons[i][j].setText("P R");
-                            break;
-                        case "Black Queen":
-                            this.buttons[i][j].setText("P D");
-                            break;
-                        case "Black Bishop":
-                            this.buttons[i][j].setText("P B");
-                            break;
-                        case "Black Knight":
-                            this.buttons[i][j].setText("P C");
-                            break;
-                    }
-                }
-            }
-        }
-    }
-
 
     /**
      * Asks user for an input given couple choices.
@@ -254,14 +110,21 @@ public class Board extends VBox implements View {
         } else this.chosenPieces = 1;
     }
 
+
     private void highLightMoves() {
 
         for (int i = 0; i < this.possibleMoves.size(); i++) {
             int row = this.possibleMoves.get(i).getLine();
             int col = this.possibleMoves.get(i).getCol();
-            this.buttons[row][col].highLightMoves();
+
+            if(row != prevRow && col != prevCol) {
+                this.buttons[row][col].highLightMoves();
+            }else{
+                this.buttons[prevRow][prevCol].removeHighLight();
+            }
         }
     }
+
 
 
     /**
@@ -274,25 +137,256 @@ public class Board extends VBox implements View {
             CellButton button = (CellButton) event.getSource();
             row = button.getRow();
             col = button.getCol();
-            possibleTakes = gameModel.getPiece(row, col).possibleTakes();
-            possibleMoves = gameModel.getPiece(row, col).possibleMoves();
+            pos = new Position(row,col);
 
             if (gameModel.getPiece(row, col) != null) {
-                if (gameModel.getPiece(row, col).getColorAndType().equals("White Pawn")) {
+                possibleTakes = gameModel.getPiece(row, col).possibleTakes();
+                possibleMoves = gameModel.getPiece(row, col).possibleMoves();
 
-
-                    System.out.println("Possible moves for White Pawn in " + "(" + row + "," + col + ") -> " + possibleMoves);
-                    System.out.println("Possible takes for White Pawn in " + "(" + row + "," + col + ") -> " + possibleTakes);
-                    //  System.out.println(gameModel.getPiece(row, col));
-                } else {
-                    possibleMoves = gameModel.getPiece(row, col).possibleMoves();
-                    System.out.println("Possible moves for Black Pawn in " + "(" + row + "," + col + ") -> " + possibleMoves);
-                    System.out.println("Possible takes for Black Pawn in " + "(" + row + "," + col + ") -> " + possibleTakes);
+                if (gameModel.getPiece(row, col).getType().equals("Pawn")) {
+                    pawnSetUp();
                 }
+                if (gameModel.getPiece(row, col).getType().equals("Bishop")) {
+                    bishopSetUp();
+                }
+                if (gameModel.getPiece(row, col).getType().equals("King")) {
+                    kingSetUp();
+                }
+                if (gameModel.getPiece(row, col).getType().equals("Queen")) {
+                    queenSetUp();
+                }
+                if (gameModel.getPiece(row, col).getType().equals("Rook")) {
+                    rookSetUp();
+                }
+                if (gameModel.getPiece(row, col).getType().equals("Knight")) {
+                   knightSetUp();
+                }
+
                 highLightMoves();
+
+                prevCol = col;
+                prevRow = row;
+
             }
-            // System.out.println(Arrays.deepToString(gameModel.dataBoard));
+            gameModel.clickPiece(row,col);
+            updateBoard();
         }
+    }
+
+
+    private void pawnSetUp(){
+        if (gameModel.getPiece(row, col).getColorAndType().equals("WhitePawn")) {
+            System.out.println("Possible moves for White Pawn in " + "(" + row + "," + col + ") -> " + possibleMoves);
+            System.out.println("Possible takes for White Pawn in " + "(" + row + "," + col + ") -> " + possibleTakes);
+
+            //  System.out.println(gameModel.getPiece(row, col));
+        } else {
+            possibleMoves = gameModel.getPiece(row, col).possibleMoves();
+            System.out.println("Possible moves for Black Pawn in " + "(" + row + "," + col + ") -> " + possibleMoves);
+            System.out.println("Possible takes for Black Pawn in " + "(" + row + "," + col + ") -> " + possibleTakes);
+        }
+    }
+
+    private void bishopSetUp(){
+        if (gameModel.getPiece(row, col).getColorAndType().equals("WhiteBishop")) {
+            System.out.println("Possible moves for White Bishop in " + "(" + row + "," + col + ") -> " + possibleMoves);
+            System.out.println("Possible takes for White Bishop in " + "(" + row + "," + col + ") -> " + possibleTakes);
+
+            //  System.out.println(gameModel.getPiece(row, col));
+        } else {
+            possibleMoves = gameModel.getPiece(row, col).possibleMoves();
+            System.out.println("Possible moves for Black Bishop in " + "(" + row + "," + col + ") -> " + possibleMoves);
+            System.out.println("Possible takes for Black Bishop in " + "(" + row + "," + col + ") -> " + possibleTakes);
+        }
+    }
+
+    private void kingSetUp(){
+        if (gameModel.getPiece(row, col).getColorAndType().equals("WhiteKing")) {
+            System.out.println("Possible moves for White King in " + "(" + row + "," + col + ") -> " + possibleMoves);
+            System.out.println("Possible takes for White King in " + "(" + row + "," + col + ") -> " + possibleTakes);
+
+            //  System.out.println(gameModel.getPiece(row, col));
+        } else {
+            possibleMoves = gameModel.getPiece(row, col).possibleMoves();
+            System.out.println("Possible moves for Black King in " + "(" + row + "," + col + ") -> " + possibleMoves);
+            System.out.println("Possible takes for Black King in " + "(" + row + "," + col + ") -> " + possibleTakes);
+        }
+    }
+    private void queenSetUp(){
+        if (gameModel.getPiece(row, col).getColorAndType().equals("WhiteQueen")) {
+            System.out.println("Possible moves for White Queen in " + "(" + row + "," + col + ") -> " + possibleMoves);
+            System.out.println("Possible takes for White Queen in " + "(" + row + "," + col + ") -> " + possibleTakes);
+
+            //  System.out.println(gameModel.getPiece(row, col));
+        } else {
+            possibleMoves = gameModel.getPiece(row, col).possibleMoves();
+            System.out.println("Possible moves for Black Queen in " + "(" + row + "," + col + ") -> " + possibleMoves);
+            System.out.println("Possible takes for Black Queen in " + "(" + row + "," + col + ") -> " + possibleTakes);
+        }
+    }
+    private void rookSetUp(){
+        if (gameModel.getPiece(row, col).getColorAndType().equals("WhiteRook")) {
+            System.out.println("Possible moves for White Rook in " + "(" + row + "," + col + ") -> " + possibleMoves);
+            System.out.println("Possible takes for White Rook in " + "(" + row + "," + col + ") -> " + possibleTakes);
+
+            //  System.out.println(gameModel.getPiece(row, col));
+        } else {
+            possibleMoves = gameModel.getPiece(row, col).possibleMoves();
+            System.out.println("Possible moves for Black Rook in " + "(" + row + "," + col + ") -> " + possibleMoves);
+            System.out.println("Possible takes for Black Rook in " + "(" + row + "," + col + ") -> " + possibleTakes);
+        }
+    }
+    private void knightSetUp(){
+        if (gameModel.getPiece(row, col).getColorAndType().equals("WhiteKnight")) {
+            System.out.println("Possible moves for White Knight in " + "(" + row + "," + col + ") -> " + possibleMoves);
+            System.out.println("Possible takes for White Knight in " + "(" + row + "," + col + ") -> " + possibleTakes);
+
+            //  System.out.println(gameModel.getPiece(row, col));
+        } else {
+            possibleMoves = gameModel.getPiece(row, col).possibleMoves();
+            System.out.println("Possible moves for Black Knight in " + "(" + row + "," + col + ") -> " + possibleMoves);
+            System.out.println("Possible takes for Black Knight in " + "(" + row + "," + col + ") -> " + possibleTakes);
+        }
+    }
+
+
+    /**
+     * update the buttons where the white pieces are with images.
+     */
+    private void updateWhiteImage() {
+        for (int i = 0; i < this.gameModel.getSIZE(); i++) {
+            for (int j = 0; j < this.gameModel.getSIZE(); j++) {
+                if (this.gameModel.getPiece(i, j) == null) {
+                    this.buttons[i][j].setEmpty();
+                } else {
+                    switch (this.gameModel.getPiece(i, j).getColorAndType()) {
+                        case "WhiteRook":
+                            this.buttons[i][j].setWhiteRook();
+                            break;
+                        case "WhitePawn":
+                            this.buttons[i][j].setWhitePawn();
+                            break;
+                        case "WhiteKing":
+                            this.buttons[i][j].setWhiteKing();
+                            break;
+                        case "WhiteQueen":
+                            this.buttons[i][j].setWhiteQueen();
+                            break;
+                        case "WhiteBishop":
+                            this.buttons[i][j].setWhiteBishop();
+                            break;
+                        case "WhiteKnight":
+                            this.buttons[i][j].setWhiteHorse();
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * update the buttons where the black pieces are with images.
+     */
+    private void updateBlackImage() {
+        for (int i = 0; i < this.gameModel.getSIZE(); i++) {
+            for (int j = 0; j < this.gameModel.getSIZE(); j++) {
+                if (this.gameModel.getPiece(i, j) == null) {
+                    this.buttons[i][j].setEmpty();
+                } else {
+                    switch (this.gameModel.getPiece(i, j).getColorAndType()) {
+                        case "BlackRook":
+                            this.buttons[i][j].setBlackRook();
+                            break;
+                        case "BlackPawn":
+                            this.buttons[i][j].setBlackPawn();
+                            break;
+                        case "BlackKing":
+                            this.buttons[i][j].setBlackKing();
+                            break;
+                        case "BlackQueen":
+                            this.buttons[i][j].setBlackQueen();
+                            break;
+                        case "BlackBishop":
+                            this.buttons[i][j].setBlackBishop();
+                            break;
+                        case "BlackKnight":
+                            this.buttons[i][j].setBlackHorse();
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * update the buttons where the white pieces are with text.
+     */
+    private void updateWhiteText() {
+        for (int i = 0; i < this.gameModel.getSIZE(); i++) {
+            for (int j = 0; j < this.gameModel.getSIZE(); j++) {
+                if (this.gameModel.getPiece(i, j) == null) {
+                    this.buttons[i][j].setText("");
+                } else {
+                    switch (this.gameModel.getPiece(i, j).getColorAndType()) {
+                        case "WhiteRook":
+                            this.buttons[i][j].setText("B T");
+                            break;
+                        case "WhitePawn":
+                            this.buttons[i][j].setText("B p");
+                            break;
+                        case "WhiteKing":
+                            this.buttons[i][j].setText("B R");
+                            break;
+                        case "WhiteQueen":
+                            this.buttons[i][j].setText("B D");
+                            break;
+                        case "WhiteBishop":
+                            this.buttons[i][j].setText("B B");
+                            break;
+                        case "WhiteKnight":
+                            this.buttons[i][j].setText("B C");
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * update the buttons where the black pieces are with text.
+     */
+    private void updateBlackText() {
+        for (int i = 0; i < this.gameModel.getSIZE(); i++) {
+            for (int j = 0; j < this.gameModel.getSIZE(); j++) {
+                if (this.gameModel.getPiece(i, j) == null) {
+                    this.buttons[i][j].setText("");
+                } else {
+                    switch (this.gameModel.getPiece(i, j).getColorAndType()) {
+                        case "BlackRook":
+                            this.buttons[i][j].setText("P T");
+                            break;
+                        case "BlackPawn":
+                            this.buttons[i][j].setText("P p");
+                            break;
+                        case "BlackKing":
+                            this.buttons[i][j].setText("P R");
+                            break;
+                        case "BlackQueen":
+                            this.buttons[i][j].setText("P D");
+                            break;
+                        case "BlackBishop":
+                            this.buttons[i][j].setText("P B");
+                            break;
+                        case "BlackKnight":
+                            this.buttons[i][j].setText("P C");
+                            break;
+                    }
+                }
+            }
+        }
+    }
+    public Position getPos(){
+        return this.pos;
     }
 }
 

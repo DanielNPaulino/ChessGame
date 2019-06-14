@@ -5,6 +5,7 @@ import pt.ipbeja.po2.chess.model.ChessBoard;
 import pt.ipbeja.po2.chess.model.PlayerColor;
 import pt.ipbeja.po2.chess.model.Position;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,24 +13,55 @@ import java.util.List;
  * @version 29/05/2019
  */
 public class Rook extends Piece{
+
     private String colorAndType;
-    private Position pos;
+    private Position position;
+    private PlayerColor playerColor;
+    private ChessBoard gameModel;
+    private String type;
+    private int prevRow, prevCol;
 
 
     public Rook(ChessBoard board, PlayerColor playerColor, Position position) {
         super(board, playerColor, position);
-        this.colorAndType = playerColor + " Rook";
-        this.pos = position;
+        this.type = "Rook";
+        this.colorAndType = playerColor + this.type;
+        this.position = position;
+        this.playerColor = playerColor;
+        this.gameModel = board;
     }
 
     @Override
     public List<Position> possibleMoves() {
-        return null;
+        gameModel.setVar();
+        int col = gameModel.getC();
+        int row = gameModel.getR();
+        List<Position> possibleMovement = new ArrayList<>();
+
+        if (this.colorAndType.equals("WhiteRook")) {
+
+        }
+
+        if (this.colorAndType.equals("BlackRook")) {
+
+        }
+        return possibleMovement;
     }
 
     @Override
     public List<Position> possibleTakes() {
-        return null;
+        List<Position> possibleTakes = new ArrayList<>();
+        gameModel.setVar();
+        int col = gameModel.getC();
+        int row = gameModel.getR();
+
+        if(getColor().equals("White")){
+
+        }
+        if (getColor().equals("Black")) {
+
+        }
+        return possibleTakes;
     }
 
     public String movementText(Position begin, Position end){
@@ -37,7 +69,7 @@ public class Rook extends Piece{
     }
     @Override
     public String toString() {
-        return this.colorAndType + this.pos ;
+        return this.colorAndType + this.position ;
     }
 
     @Override
@@ -47,6 +79,13 @@ public class Rook extends Piece{
 
     @Override
     public String getColor() {
-        return null;
+        return this.playerColor+"";
     }
+
+    @Override
+    public String getType() {
+        return this.type;
+    }
+
+
 }

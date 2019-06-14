@@ -1,5 +1,6 @@
 package pt.ipbeja.po2.chess.gui;
 
+import com.sun.xml.internal.bind.v2.model.core.NonElement;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -62,12 +63,15 @@ public class CellButton extends Button {
     }
 
     public void highLightMoves(){
-        this.setStyle("-fx-border-color: green;");
+        this.setStyle("-fx-border-color: red;");
     }
     public void removeHighLight(){
         this.setStyle("-fx-border-color: none;");
     }
 
+    public void setEmpty(){
+        this.imageView.setImage(null);
+    }
 
     public void setBlackPawn() {
         this.imageView.setImage(BLACK_PAWN);

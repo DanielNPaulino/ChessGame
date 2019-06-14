@@ -6,6 +6,7 @@ import pt.ipbeja.po2.chess.model.PlayerColor;
 import pt.ipbeja.po2.chess.model.Position;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Filipe Gonçalves (6050), Daniel Paulino (14056)
@@ -31,6 +32,29 @@ public abstract class Piece {
 
     public abstract String getColor();
 
+    public abstract String getType();
+
+    public Position getPosition(){
+        return this.position;
+    }
+    public void setPosition(Position position){
+        this.position = position;
+    }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Piece piece = (Piece) o;
+        return Objects.equals(chessBoard, piece.chessBoard) &&
+                Objects.equals(position, piece.position) &&
+                playerColor == piece.playerColor;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(chessBoard, position, playerColor);
+    }
 }

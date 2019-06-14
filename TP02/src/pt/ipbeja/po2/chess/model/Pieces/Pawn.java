@@ -1,12 +1,15 @@
 package pt.ipbeja.po2.chess.model.Pieces;
 
 
+import javafx.geometry.Pos;
 import pt.ipbeja.po2.chess.model.ChessBoard;
 import pt.ipbeja.po2.chess.model.PlayerColor;
 import pt.ipbeja.po2.chess.model.Position;
+import sun.net.www.http.PosterOutputStream;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Filipe Gonçalves (6050), Daniel Paulino (14056)
@@ -15,52 +18,49 @@ import java.util.List;
 public class Pawn extends Piece {
 
     private String colorAndType;
-    private Position position;
     private PlayerColor playerColor;
-    private ChessBoard chessBoard;
+    private ChessBoard gameModel;
+    private String type;
+    private int prevRow, prevCol;
 
 
     public Pawn(ChessBoard board, PlayerColor playerColor, Position position) {
         super(board, playerColor, position);
-        this.colorAndType = playerColor + " Pawn";
-        this.position = position;
+        this.type = "Pawn";
+        this.colorAndType = playerColor + this.type;
         this.playerColor = playerColor;
-        this.chessBoard = board;
-
+        this.gameModel = board;
     }
 
-    public void pawnMoves(Position position) {
-
-    }
 
     /**
-     *
      * @return the list of possible moves for this piece
      */
     @Override
     public List<Position> possibleMoves() {
 
-        int row = this.position.getLine();
-        int col = this.position.getCol();
+        int col = this.getPosition().getCol();
+        int row = this.getPosition().getLine();
         List<Position> possibleMovement = new ArrayList<>();
 
-        if (this.colorAndType.equals("White Pawn") && row == 1 ){
-            Position pos = new Position(row+1,col);
-            Position pos1 = new Position(row+2,col);
-            possibleMovement.add(pos);
-            possibleMovement.add(pos1);
-        }else if(this.colorAndType.equals("White Pawn") && row != 1){
-            Position pos = new Position(row+1,col);
-            possibleMovement.add(pos);
-        }
-        if(this.colorAndType.equals("Black Pawn") && row ==6){
-            Position pos = new Position(row-1,col);
-            Position pos1 = new Position(row-2,col);
+        if (this.colorAndType.equals("BlackPawn") && row == 1) {
+            Position pos = new Position(row + 1, col);
+            Position pos1 = new Position(row + 2, col);
             possibleMovement.add(pos);
             possibleMovement.add(pos1);
         }
-        else if(this.colorAndType.equals("Black Pawn") && row != 6){
-            Position pos = new Position(row-1,col);
+        if (this.colorAndType.equals("BlackPawn") && row != 1) {
+            Position pos = new Position(row + 1, col);
+            possibleMovement.add(pos);
+        }
+        if (this.colorAndType.equals("WhitePawn") && row == 6) {
+            Position pos = new Position(row - 1, col);
+            Position pos1 = new Position(row - 2, col);
+            possibleMovement.add(pos);
+            possibleMovement.add(pos1);
+        }
+        if (this.colorAndType.equals("WhitePawn") && row != 6) {
+            Position pos = new Position(row - 1, col);
             possibleMovement.add(pos);
         }
         return possibleMovement;
@@ -69,23 +69,43 @@ public class Pawn extends Piece {
     @Override
     public List<Position> possibleTakes() {
         List<Position> possibleTakes = new ArrayList<>();
-        int row = this.position.getLine();
-        int col = this.position.getCol();
 
-        if(chessBoard.canMoveTo(row-1,col) && getColor().equals("Black")) {
-            String s = chessBoard.getPiece(row - 1, col).getColor();
-            if (s != this.getColor() ) {
-                Position pos = new Position(row - 1, col);
-                possibleTakes.add(pos);
-            }
-        }
-            if (chessBoard.canMoveTo(row + 1, col) && getColor().equals("White")) {
-                String ss = chessBoard.getPiece(row + 1, col).getColor();
-                if (ss != this.getColor() ) {
-                    Position pos = new Position(row + 1, col);
+        int col = this.getPosition().getCol();
+        int row = this.getPosition().getLine();
+
+        if (getColor().equals("White")) {
+            if (this.gameModel.getPiece(row - 1, col - 1) != null) {
+                String ss = this.gameModel.getPiece(row - 1, col - 1).getColor();
+                if (ss != this.getColor()) {
+                    Position pos = new Position(row - 1, col - 1);
                     possibleTakes.add(pos);
                 }
             }
+            if (this.gameModel.getPiece(row - 1, col + 1) != null) {
+                String s = this.gameModel.getPiece(row - 1, col + 1).getColor();
+                if (s != this.getColor()) {
+                    Position pos = new Position(row - 1, col + 1);
+                    possibleTakes.add(pos);
+                }
+            }
+        }
+        if (getColor().equals("Black")) {
+            if (this.gameModel.getPiece(row + 1, col - 1) != null) {
+                String ss = this.gameModel.getPiece(row + 1, col - 1).getColor();
+                if (ss != this.getColor()) {
+                    Position pos = new Position(row + 1, col - 1);
+                    possibleTakes.add(pos);
+                }
+            }
+            if (this.gameModel.getPiece(row + 1, col + 1) != null) {
+                String s = this.gameModel.getPiece(row + 1, col + 1).getColor();
+                if (s != this.getColor()) {
+                    Position pos = new Position(row + 1, col + 1);
+                    possibleTakes.add(pos);
+                }
+            }
+        }
+
         return possibleTakes;
     }
 
@@ -95,7 +115,7 @@ public class Pawn extends Piece {
 
     @Override
     public String toString() {
-        return this.colorAndType + this.position;
+        return this.colorAndType + this.getPosition();
     }
 
     @Override
@@ -105,8 +125,12 @@ public class Pawn extends Piece {
 
     @Override
     public String getColor() {
-        return playerColor+"";
+        return playerColor + "";
     }
 
+    @Override
+    public String getType() {
+        return this.type;
+    }
 
 }
