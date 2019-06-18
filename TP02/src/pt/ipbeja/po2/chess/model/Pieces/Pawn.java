@@ -44,24 +44,32 @@ public class Pawn extends Piece {
         List<Position> possibleMovement = new ArrayList<>();
 
         if (this.colorAndType.equals("BlackPawn") && row == 1) {
-            Position pos = new Position(row + 1, col);
-            Position pos1 = new Position(row + 2, col);
-            possibleMovement.add(pos);
-            possibleMovement.add(pos1);
+            if (gameModel.isInside(row + 1, col) && gameModel.isInside(row + 2, col)) {
+                Position pos = new Position(row + 1, col);
+                Position pos1 = new Position(row + 2, col);
+                possibleMovement.add(pos);
+                possibleMovement.add(pos1);
+            }
         }
         if (this.colorAndType.equals("BlackPawn") && row != 1) {
-            Position pos = new Position(row + 1, col);
-            possibleMovement.add(pos);
+            if (gameModel.isInside(row + 1, col)) {
+                Position pos = new Position(row + 1, col);
+                possibleMovement.add(pos);
+            }
         }
         if (this.colorAndType.equals("WhitePawn") && row == 6) {
-            Position pos = new Position(row - 1, col);
-            Position pos1 = new Position(row - 2, col);
-            possibleMovement.add(pos);
-            possibleMovement.add(pos1);
+            if (gameModel.isInside(row - 1, col) && gameModel.isInside(row - 2, col)) {
+                Position pos = new Position(row - 1, col);
+                Position pos1 = new Position(row - 2, col);
+                possibleMovement.add(pos);
+                possibleMovement.add(pos1);
+            }
         }
         if (this.colorAndType.equals("WhitePawn") && row != 6) {
-            Position pos = new Position(row - 1, col);
-            possibleMovement.add(pos);
+            if (gameModel.isInside(row - 1, col)) {
+                Position pos = new Position(row - 1, col);
+                possibleMovement.add(pos);
+            }
         }
         return possibleMovement;
     }
@@ -74,34 +82,40 @@ public class Pawn extends Piece {
         int row = this.getPosition().getLine();
 
         if (getColor().equals("White")) {
-            if (this.gameModel.getPiece(row - 1, col - 1) != null) {
-                String ss = this.gameModel.getPiece(row - 1, col - 1).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row - 1, col - 1);
-                    possibleTakes.add(pos);
+            if (gameModel.isInside(row - 1, col - 1)) {
+                if (this.gameModel.getPiece(row - 1, col - 1) != null) {
+                    if (!this.getColor().equals(this.gameModel.getPiece(row - 1, col - 1).getColor())) {
+                        Position pos = new Position(row - 1, col - 1);
+                        possibleTakes.add(pos);
+                    }
                 }
             }
-            if (this.gameModel.getPiece(row - 1, col + 1) != null) {
-                String s = this.gameModel.getPiece(row - 1, col + 1).getColor();
-                if (s != this.getColor()) {
-                    Position pos = new Position(row - 1, col + 1);
-                    possibleTakes.add(pos);
+            if (gameModel.isInside(row - 1, col + 1)) {
+                if (this.gameModel.getPiece(row - 1, col + 1) != null) {
+                    if (!this.getColor().equals(this.gameModel.getPiece(row - 1, col + 1).getColor())) {
+                        Position pos = new Position(row - 1, col + 1);
+                        possibleTakes.add(pos);
+                    }
                 }
             }
         }
         if (getColor().equals("Black")) {
-            if (this.gameModel.getPiece(row + 1, col - 1) != null) {
-                String ss = this.gameModel.getPiece(row + 1, col - 1).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row + 1, col - 1);
-                    possibleTakes.add(pos);
+            if (gameModel.isInside(row + 1, col - 1)) {
+                if (this.gameModel.getPiece(row + 1, col - 1) != null) {
+
+                    if (this.getColor().equals(this.gameModel.getPiece(row + 1, col - 1).getColor())) {
+                        Position pos = new Position(row + 1, col - 1);
+                        possibleTakes.add(pos);
+                    }
                 }
             }
-            if (this.gameModel.getPiece(row + 1, col + 1) != null) {
-                String s = this.gameModel.getPiece(row + 1, col + 1).getColor();
-                if (s != this.getColor()) {
-                    Position pos = new Position(row + 1, col + 1);
-                    possibleTakes.add(pos);
+            if (gameModel.isInside(row + 1, col + 1)) {
+                if (this.gameModel.getPiece(row + 1, col + 1) != null) {
+
+                    if (!this.getColor().equals(this.gameModel.getPiece(row + 1, col + 1).getColor())) {
+                        Position pos = new Position(row + 1, col + 1);
+                        possibleTakes.add(pos);
+                    }
                 }
             }
         }

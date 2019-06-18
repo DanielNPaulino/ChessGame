@@ -12,14 +12,13 @@ import java.util.List;
  * @author Filipe Gonçalves (6050), Daniel Paulino (14056)
  * @version 29/05/2019
  */
-public class Rook extends Piece{
+public class Rook extends Piece {
 
     private String colorAndType;
     private Position position;
     private PlayerColor playerColor;
     private ChessBoard gameModel;
     private String type;
-    private int prevRow, prevCol;
 
 
     public Rook(ChessBoard board, PlayerColor playerColor, Position position) {
@@ -33,53 +32,133 @@ public class Rook extends Piece{
 
     @Override
     public List<Position> possibleMoves() {
-        gameModel.setVar();
-        int col = gameModel.getC();
-        int row = gameModel.getR();
         List<Position> possibleMovement = new ArrayList<>();
+        int col = this.getPosition().getCol();
+        int row = this.getPosition().getLine();
+        int i = row + 1;
+        int j = col + 1;
 
-        if (this.colorAndType.equals("WhiteRook")) {
+        while (i < gameModel.getSIZE() && gameModel.getPiece(i, col) == null) {
+            if (gameModel.isInside(i, col)) {
+                Position position = new Position(i, col);
+                possibleMovement.add(position);
 
+                i++;
+            }
+        }
+        i = row - 1;
+
+        while (i >= 0 && gameModel.getPiece(i, col) == null) {
+            if (gameModel.isInside(i, col)) {
+                Position position = new Position(i, col);
+                possibleMovement.add(position);
+
+                i--;
+            }
         }
 
-        if (this.colorAndType.equals("BlackRook")) {
+        while (j < gameModel.getSIZE() && gameModel.getPiece(row, j) == null) {
+            if (gameModel.isInside(row, j)) {
+                Position position = new Position(row, j);
+                possibleMovement.add(position);
 
+                j++;
+            }
         }
+
+        j = col - 1;
+        while (j >= 0 && gameModel.getPiece(row, j) == null) {
+            if (gameModel.isInside(row, j)) {
+                Position position = new Position(row, j);
+                possibleMovement.add(position);
+
+                j--;
+            }
+        }
+
         return possibleMovement;
     }
+
 
     @Override
     public List<Position> possibleTakes() {
         List<Position> possibleTakes = new ArrayList<>();
-        gameModel.setVar();
-        int col = gameModel.getC();
-        int row = gameModel.getR();
+        int col = this.getPosition().getCol();
+        int row = this.getPosition().getLine();
+        int i = row + 1;
+        int j = col + 1;
 
-        if(getColor().equals("White")){
-
+        while (i < gameModel.getSIZE() && gameModel.getPiece(i, col) == null) {
+            if (gameModel.isInside(i, col)) {
+                i++;
+            }
         }
-        if (getColor().equals("Black")) {
+        if (gameModel.isInside(i, col)) {
+            if (!(this.getColor().equals(this.gameModel.getPiece(i, col).getColor()) && gameModel.getPiece(i, col) != null)) {
+                {
+                    Position position = new Position(i, col);
+                    possibleTakes.add(position);
+                }
+            }
+        }
+        i = row - 1;
 
+        while (i >= 0 && gameModel.getPiece(i, col) == null) {
+            if (gameModel.isInside(i, col)) {
+                i--;
+            }
+        }
+        if(this.gameModel.isInside(i,col)) {
+            if (!(this.getColor().equals(this.gameModel.getPiece(i, col).getColor())) && gameModel.getPiece(i, col) != null) {
+                Position position = new Position(i, col);
+                possibleTakes.add(position);
+            }
+        }
+
+        while (j < gameModel.getSIZE() && gameModel.getPiece(row, j) == null) {
+            if (gameModel.isInside(row, j)) {
+                j++;
+            }
+        }
+        if (this.gameModel.isInside(row, j)) {
+            if (!(this.getColor().equals(this.gameModel.getPiece(row, j).getColor())) && this.gameModel.getPiece(row, j) != null) {
+                Position position = new Position(row, j);
+                possibleTakes.add(position);
+            }
+        }
+        j = col - 1;
+
+        while (j >= 0 && this.gameModel.getPiece(row, j) == null) {
+            if (this.gameModel.isInside(row, j)) {
+                j--;
+            }
+        }
+        if (this.gameModel.isInside(row, j)) {
+            if (!(this.getColor().equals(this.gameModel.getPiece(row, j).getColor())) && this.gameModel.getPiece(row, j) != null) {
+                Position position = new Position(row, j);
+                possibleTakes.add(position);
+            }
         }
         return possibleTakes;
     }
 
-    public String movementText(Position begin, Position end){
+    public String movementText(Position begin, Position end) {
         return null;
-    }
-    @Override
-    public String toString() {
-        return this.colorAndType + this.position ;
     }
 
     @Override
-    public String getColorAndType(){
+    public String toString() {
+        return this.colorAndType + this.position;
+    }
+
+    @Override
+    public String getColorAndType() {
         return this.colorAndType;
     }
 
     @Override
     public String getColor() {
-        return this.playerColor+"";
+        return this.playerColor + "";
     }
 
     @Override

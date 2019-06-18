@@ -14,49 +14,76 @@ import java.util.List;
 public class Bishop extends Piece {
 
     private String colorAndType;
-    private Position position;
     private PlayerColor playerColor;
     private ChessBoard gameModel;
     private String type;
-    private int prevRow, prevCol;
+
 
     public Bishop(ChessBoard board, PlayerColor playerColor, Position position) {
         super(board, playerColor, position);
         this.type = "Bishop";
         this.colorAndType = playerColor + this.type;
-        this.position = position;
         this.playerColor = playerColor;
         this.gameModel = board;
     }
 
     @Override
     public List<Position> possibleMoves() {
-        gameModel.setVar();
-        int col = gameModel.getC();
-        int row = gameModel.getR();
         List<Position> possibleMovement = new ArrayList<>();
+        int col = this.getPosition().getCol();
+        int row = this.getPosition().getLine();
+        int i = row + 1;
+        int j = col + 1;
 
-        if (this.type.equals("Bishop")) {
+        while (i < gameModel.getSIZE() && j < gameModel.getSIZE() && gameModel.getPiece(i, j) == null) {
+            if (gameModel.isInside(i, j)) {
 
-            while (gameModel.dataBoard[row][col] == null) {
-                Position position = new Position(row, col);
+                Position position = new Position(i, j);
                 possibleMovement.add(position);
-                //gameModel.dataBoard[row + 1][col + 1];
-                //row + 1;
-                //col + 1;
-            }
 
-            for (int i = 0; i < 8; i++) {
-                Position position2 = new Position(row - i, col - i);
-                possibleMovement.add(position2);
+                i++;
+                j++;
+
             }
-            for (int i = 0; i < 8; i++) {
-                Position position3 = new Position(row - i, col + i);
-                possibleMovement.add(position3);
+        }
+        i = row - 1;
+        j = col - 1;
+
+        while (i >= 0 && j >= 0 && gameModel.getPiece(i, j) == null) {
+            if (gameModel.isInside(i, j)) {
+
+                Position position = new Position(i, j);
+                possibleMovement.add(position);
+
+                i--;
+                j--;
+
             }
-            for (int i = 0; i < 8; i++) {
-                Position position4 = new Position(row + i, col - i);
-                possibleMovement.add(position4);
+        }
+        i = row + 1;
+        j = col - 1;
+        while (i < gameModel.getSIZE() && j >= 0 && gameModel.getPiece(i, j) == null) {
+            if (gameModel.isInside(i, j)) {
+
+                Position position = new Position(i, j);
+                possibleMovement.add(position);
+
+                i++;
+                j--;
+
+            }
+        }
+        i = row - 1;
+        j = col + 1;
+        while (i >= 0 && j < gameModel.getSIZE() && gameModel.getPiece(i, j) == null) {
+            if (gameModel.isInside(i, j)) {
+
+                Position position = new Position(i, j);
+                possibleMovement.add(position);
+
+                i--;
+                j++;
+
             }
         }
         return possibleMovement;
@@ -66,78 +93,79 @@ public class Bishop extends Piece {
     public List<Position> possibleTakes() {
 
         List<Position> possibleTakes = new ArrayList<>();
-        gameModel.setVar();
-        int col = gameModel.getC();
-        int row = gameModel.getR();
+        int col = this.getPosition().getCol();
+        int row = this.getPosition().getLine();
 
-        int bishopRow = 0;
-        int bishopCol = 0;
+        int i = row + 1;
+        int j = col + 1;
 
-        for (int i = 0; i < 8; i++) {
-            bishopCol = i;
-            bishopRow = i;
+        while (i < gameModel.getSIZE() && j < gameModel.getSIZE() && gameModel.getPiece(i, j) == null) {
+            if (gameModel.isInside(i, j)) {
+                i++;
+                j++;
+            }
         }
-
-        if (getColor().equals("White")) {
-            if (this.gameModel.getPiece(row + bishopRow, col + bishopCol) != null) {
-                String ss = this.gameModel.getPiece(row + bishopRow, col + bishopCol).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row + bishopRow, col + bishopCol);
-                    possibleTakes.add(pos);
-                }
-            }
-            if (this.gameModel.getPiece(row - bishopRow, col - bishopCol) != null) {
-                String ss = this.gameModel.getPiece(row - bishopRow, col - bishopCol).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row - bishopRow, col - bishopCol);
-                    possibleTakes.add(pos);
-                }
-            }
-            if (this.gameModel.getPiece(row - bishopRow, col + bishopCol) != null) {
-                String ss = this.gameModel.getPiece(row - bishopRow, col + bishopCol).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row - bishopRow, col + bishopCol);
-                    possibleTakes.add(pos);
-                }
-            }
-            if (this.gameModel.getPiece(row + bishopRow, col - bishopCol) != null) {
-                String ss = this.gameModel.getPiece(row + bishopRow, col - bishopCol).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row + bishopRow, col - bishopCol);
-                    possibleTakes.add(pos);
+        if (gameModel.isInside(i, j)) {
+            if (!(this.getColor().equals(this.gameModel.getPiece(i, j).getColor()) && gameModel.getPiece(i, j) != null)) {
+                {
+                    Position position = new Position(i, j);
+                    possibleTakes.add(position);
                 }
             }
         }
-        if (getColor().equals("Black")) {
-            if (this.gameModel.getPiece(row + bishopRow, col + bishopCol) != null) {
-                String ss = this.gameModel.getPiece(row + bishopRow, col + bishopCol).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row + bishopRow, col + bishopCol);
-                    possibleTakes.add(pos);
-                }
+        i = row - 1;
+        j = col - 1;
+
+        while (i >= 0 && j >= 0 && gameModel.getPiece(i, j) == null) {
+            if (gameModel.isInside(i, j)) {
+                i--;
+                j--;
             }
-            if (this.gameModel.getPiece(row - bishopRow, col - bishopCol) != null) {
-                String ss = this.gameModel.getPiece(row - bishopRow, col - bishopCol).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row - bishopRow, col - bishopCol);
-                    possibleTakes.add(pos);
-                }
-            }
-            if (this.gameModel.getPiece(row - bishopRow, col + bishopCol) != null) {
-                String ss = this.gameModel.getPiece(row - bishopRow, col + bishopCol).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row - bishopRow, col + bishopCol);
-                    possibleTakes.add(pos);
-                }
-            }
-            if (this.gameModel.getPiece(row + bishopRow, col - bishopCol) != null) {
-                String ss = this.gameModel.getPiece(row + bishopRow, col - bishopCol).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row + bishopRow, col - bishopCol);
-                    possibleTakes.add(pos);
+        }
+        if (gameModel.isInside(i, j)) {
+            if (!(this.getColor().equals(this.gameModel.getPiece(i, j).getColor()) && gameModel.getPiece(i, j) != null)) {
+                {
+                    Position position = new Position(i, j);
+                    possibleTakes.add(position);
                 }
             }
         }
+
+        i = row + 1;
+        j = col - 1;
+
+        while (i < gameModel.getSIZE() && j >= 0 && gameModel.getPiece(i, j) == null) {
+            if (gameModel.isInside(i, j)) {
+                i++;
+                j--;
+            }
+        }
+        if (gameModel.isInside(i, j)) {
+            if (!(this.getColor().equals(this.gameModel.getPiece(i, j).getColor()) && gameModel.getPiece(i, j) != null)) {
+                {
+                    Position position = new Position(i, j);
+                    possibleTakes.add(position);
+                }
+            }
+        }
+        i = row - 1;
+        j = col + 1;
+
+        while (i >= 0 && j < gameModel.getSIZE() && gameModel.getPiece(i, j) == null) {
+            if (gameModel.isInside(i, j)) {
+                i--;
+                j++;
+            }
+        }
+        if (gameModel.isInside(i, j)) {
+            if (!(this.getColor().equals(this.gameModel.getPiece(i, j).getColor()) && gameModel.getPiece(i, j) != null)) {
+                {
+                    Position position = new Position(i, j);
+                    possibleTakes.add(position);
+                }
+            }
+        }
+
         return possibleTakes;
     }
 
@@ -147,7 +175,7 @@ public class Bishop extends Piece {
 
     @Override
     public String toString() {
-        return this.colorAndType + this.position;
+        return this.colorAndType + this.getPosition();
     }
 
     @Override
@@ -164,5 +192,6 @@ public class Bishop extends Piece {
     public String getType() {
         return this.type;
     }
+
 
 }

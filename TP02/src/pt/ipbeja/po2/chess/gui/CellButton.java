@@ -63,8 +63,13 @@ public class CellButton extends Button {
     }
 
     public void highLightMoves(){
-        this.setStyle("-fx-border-color: red;");
+        this.setStyle("-fx-border-color: red; -fx-border-width: 3 3 3 3;");
     }
+
+    public void highLightTakes(){
+        this.setStyle("-fx-border-color: green; -fx-border-width: 3 3 3 3;");
+    }
+
     public void removeHighLight(){
         this.setStyle("-fx-border-color: none;");
     }

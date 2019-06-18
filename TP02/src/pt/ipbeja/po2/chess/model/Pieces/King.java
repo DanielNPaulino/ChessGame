@@ -1,5 +1,6 @@
 package pt.ipbeja.po2.chess.model.Pieces;
 
+import javafx.geometry.Pos;
 import pt.ipbeja.po2.chess.model.ChessBoard;
 import pt.ipbeja.po2.chess.model.PlayerColor;
 import pt.ipbeja.po2.chess.model.Position;
@@ -14,205 +15,81 @@ import java.util.List;
 public class King extends Piece {
 
     private String colorAndType;
-    private Position position;
     private PlayerColor playerColor;
     private ChessBoard gameModel;
     private String type;
-    private int prevRow, prevCol;
 
     public King(ChessBoard board, PlayerColor playerColor, Position position) {
         super(board, playerColor, position);
         this.type = "King";
         this.colorAndType = playerColor + this.type;
-        this.position = position;
         this.playerColor = playerColor;
         this.gameModel = board;
     }
 
     @Override
     public List<Position> possibleMoves() {
-        gameModel.setVar();
-        int col = gameModel.getC();
-        int row = gameModel.getR();
+        int col = this.getPosition().getCol();
+        int row = this.getPosition().getLine();
         List<Position> possibleMovement = new ArrayList<>();
 
-        if (this.colorAndType.equals("WhiteKing") || this.colorAndType.equals("BlackKing")) {
-            Position position = new Position(row-1,col-1);
-            possibleMovement.add(position);
-            Position position2 = new Position(row-1,col);
-            possibleMovement.add(position2);
-            Position position3 = new Position(row-1,col+1);
-            possibleMovement.add(position3);
-            Position position4 = new Position(row+1,col);
-            possibleMovement.add(position4);
-            Position position5 = new Position(row+1,col+1);
-            possibleMovement.add(position5);
-            Position position6 = new Position(row+1,col-1);
-            possibleMovement.add(position6);
-            Position position7 = new Position(row,col-1);
-            possibleMovement.add(position7);
-            Position position8 = new Position(row,col+1);
-            possibleMovement.add(position8);
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if (this.gameModel.isInside(row + i, col + j)) {
+                    if (this.gameModel.getPiece(row + i, col + j) == null) {
+                        Position pos = new Position(row + i, col + j);
+                        possibleMovement.add(pos);
+                    }
+                }
+            }
         }
 
-        /*if (this.colorAndType.equals("BlackKing")) {
-
-        }*/
         return possibleMovement;
     }
 
     @Override
     public List<Position> possibleTakes() {
         List<Position> possibleTakes = new ArrayList<>();
-        gameModel.setVar();
-        int col = gameModel.getC();
-        int row = gameModel.getR();
 
-        if(getColor().equals("White") ){
-            if (this.gameModel.getPiece(row - 1, col - 1) != null) {
-                String ss = this.gameModel.getPiece(row - 1, col - 1).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row - 1, col - 1);
-                    possibleTakes.add(pos);
-                }
-            }
-            if (this.gameModel.getPiece(row - 1, col ) != null) {
-                String ss = this.gameModel.getPiece(row - 1, col ).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row - 1, col);
-                    possibleTakes.add(pos);
-                }
-            }
-            if (this.gameModel.getPiece(row - 1, col + 1) != null) {
-                String ss = this.gameModel.getPiece(row - 1, col + 1).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row - 1, col + 1);
-                    possibleTakes.add(pos);
-                }
-            }
-            if (this.gameModel.getPiece(row + 1, col) != null) {
-                String ss = this.gameModel.getPiece(row + 1, col ).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row + 1, col );
-                    possibleTakes.add(pos);
-                }
-            }
-            if (this.gameModel.getPiece(row + 1, col + 1) != null) {
-                String ss = this.gameModel.getPiece(row + 1, col + 1).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row + 1, col + 1);
-                    possibleTakes.add(pos);
-                }
-            }
-            if (this.gameModel.getPiece(row + 1, col - 1) != null) {
-                String ss = this.gameModel.getPiece(row + 1, col - 1).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row + 1, col - 1);
-                    possibleTakes.add(pos);
-                }
-            }
-            if (this.gameModel.getPiece(row , col - 1) != null) {
-                String ss = this.gameModel.getPiece(row , col - 1).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row, col - 1);
-                    possibleTakes.add(pos);
-                }
-            }
-            if (this.gameModel.getPiece(row, col + 1) != null) {
-                String ss = this.gameModel.getPiece(row, col + 1).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row, col + 1);
-                    possibleTakes.add(pos);
-                }
-            }
+        int col = this.getPosition().getCol();
+        int row = this.getPosition().getLine();
 
-
-        }
-
-        if (getColor().equals("Black")) {
-            if (this.gameModel.getPiece(row - 1, col - 1) != null) {
-                String ss = this.gameModel.getPiece(row - 1, col - 1).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row - 1, col - 1);
-                    possibleTakes.add(pos);
-                }
-            }
-            if (this.gameModel.getPiece(row - 1, col ) != null) {
-                String ss = this.gameModel.getPiece(row - 1, col ).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row - 1, col);
-                    possibleTakes.add(pos);
-                }
-            }
-            if (this.gameModel.getPiece(row - 1, col + 1) != null) {
-                String ss = this.gameModel.getPiece(row - 1, col + 1).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row - 1, col + 1);
-                    possibleTakes.add(pos);
-                }
-            }
-            if (this.gameModel.getPiece(row + 1, col) != null) {
-                String ss = this.gameModel.getPiece(row + 1, col ).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row + 1, col );
-                    possibleTakes.add(pos);
-                }
-            }
-            if (this.gameModel.getPiece(row + 1, col + 1) != null) {
-                String ss = this.gameModel.getPiece(row + 1, col + 1).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row + 1, col + 1);
-                    possibleTakes.add(pos);
-                }
-            }
-            if (this.gameModel.getPiece(row + 1, col - 1) != null) {
-                String ss = this.gameModel.getPiece(row + 1, col - 1).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row + 1, col - 1);
-                    possibleTakes.add(pos);
-                }
-            }
-            if (this.gameModel.getPiece(row , col - 1) != null) {
-                String ss = this.gameModel.getPiece(row , col - 1).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row, col - 1);
-                    possibleTakes.add(pos);
-                }
-            }
-            if (this.gameModel.getPiece(row, col + 1) != null) {
-                String ss = this.gameModel.getPiece(row, col + 1).getColor();
-                if (ss != this.getColor()) {
-                    Position pos = new Position(row, col + 1);
-                    possibleTakes.add(pos);
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if (this.gameModel.isInside(row + i, col + j)) {
+                    if (this.gameModel.getPiece(row + i, col + j) != null) {
+                        if (!this.getPosition().equals(gameModel.getPiece(row + i, col + j).getColor())) {
+                            Position pos = new Position(row + i, col + j);
+                            possibleTakes.add(pos);
+                        }
+                    }
                 }
             }
         }
         return possibleTakes;
     }
 
-    public String movementText(Position begin, Position end){
+    public String movementText(Position begin, Position end) {
         return null;
     }
 
     @Override
     public String toString() {
-        return this.colorAndType + this.position;
+        return this.colorAndType + this.getPosition();
     }
 
     @Override
-    public String getColorAndType(){
+    public String getColorAndType() {
         return this.colorAndType;
     }
 
     @Override
     public String getColor() {
-        return this.playerColor+"";
+        return this.playerColor + "";
     }
 
     @Override
     public String getType() {
-      return this.type;
+        return this.type;
     }
-
-
 }
