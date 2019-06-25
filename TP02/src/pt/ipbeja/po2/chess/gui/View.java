@@ -7,5 +7,6 @@ import pt.ipbeja.po2.chess.model.Position;
  * @version 29/05/2019
  */
 public interface View {
-    Position getPos();
+
+
 }

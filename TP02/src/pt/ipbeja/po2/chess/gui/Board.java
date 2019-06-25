@@ -2,13 +2,21 @@ package pt.ipbeja.po2.chess.gui;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import pt.ipbeja.po2.chess.model.ChessBoard;
-import pt.ipbeja.po2.chess.model.Pieces.Piece;
 import pt.ipbeja.po2.chess.model.Position;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,10 +30,16 @@ public class Board extends VBox implements View {
     private CellButton buttons[][];
     private ChessBoard gameModel;
     private GridPane gridPane = new GridPane();
-    private Position pos;
+    private HBox hBox1 = new HBox();
+    private HBox bottomBox = new HBox();
+    private VBox leftBox = new VBox();
+    private VBox rightBox = new VBox();
+    private HBox topBox = new HBox();
+    private HBox movesBox = new HBox();
     private List<Position> possibleMoves = new ArrayList<>();
     private List<Position> possibleTakes = new ArrayList<>();
     private List<Position> prevMoves = new ArrayList<>();
+    private TextArea textArea = new TextArea();
 
     /**
      * class constructor
@@ -33,7 +47,11 @@ public class Board extends VBox implements View {
     public Board() {
         this.gameModel = new ChessBoard(this);
         this.drawBoard();
-        this.getChildren().add(gridPane);
+        this.setLabels();
+        this.movesBox.getChildren().add(this.textArea);
+        this.hBox1.getChildren().addAll(this.leftBox, this.gridPane, this.rightBox, this.movesBox);
+        this.getChildren().addAll(this.topBox, this.hBox1, this.bottomBox);
+
     }
 
     /**
@@ -112,29 +130,109 @@ public class Board extends VBox implements View {
     }
 
 
+    /**
+     * Highlights possible moves / takes
+     * Clear previous moves / takes
+     */
     private void highLightMoves() {
 
-        if (!this.prevMoves.equals(possibleMoves)) {
-            for (int i = 0; i < prevMoves.size(); i++) {
-                int r = this.prevMoves.get(i).getLine();
-                int c = this.prevMoves.get(i).getCol();
-                this.buttons[r][c].removeHighLight();
+        if (!this.prevMoves.equals(this.possibleMoves) && this.gameModel.getMyPiece() != this.gameModel.getPiece(this.row, this.col)) {
+            for (int i = 0; i < this.gameModel.getSIZE(); i++) {
+                for (int j = 0; j < this.gameModel.getSIZE(); j++) {
+                    this.buttons[i][j].removeHighLight();
+                }
             }
         }
+
         for (int i = 0; i < this.possibleMoves.size(); i++) {
             int row = this.possibleMoves.get(i).getLine();
             int col = this.possibleMoves.get(i).getCol();
             this.buttons[row][col].highLightMoves();
         }
-        for (int i = 0; i < this.possibleTakes.size() ; i++) {
-            int ro = this.possibleTakes.get(i).getLine();
-            int co = this.possibleTakes.get(i).getCol();
-            this.buttons[ro][co].highLightTakes();
+        for (int i = 0; i < this.possibleTakes.size(); i++) {
+            int row = this.possibleTakes.get(i).getLine();
+            int col = this.possibleTakes.get(i).getCol();
+            this.buttons[row][col].highLightTakes();
         }
+    }
+
+    /**
+     * Method call to set Hbox and Vbox with the coordinate labels
+     */
+    private void setLabels() {
+        this.setSideBox(this.leftBox);
+        this.setSideBox(this.rightBox);
+        this.setTopBotBoxes(this.topBox);
+        this.setTopBotBoxes(this.bottomBox);
 
 
     }
 
+    /**
+     * set side boxes with numbers from 1 to 8
+     * @param vbox xbox to set
+     */
+    private void setSideBox(VBox vbox) {
+        for (int i = this.gameModel.getSIZE(); i >= 1; i--) {
+            String s = i + "";
+            Label label = new Label(s);
+            label.setAlignment(Pos.CENTER);
+            label.setPrefSize(40, 70);
+            label.setFont(Font.font(null, FontWeight.BOLD, 20));
+            vbox.getChildren().add(label);
+        }
+    }
+
+    /**
+     * set top and bottom boxes labels
+     * @param hBox hbox to set
+     */
+    private void setTopBotBoxes(HBox hBox) {
+        String[] array = stringToAdd();
+
+        for (int i = 0; i < array.length; i++) {
+            String s = array[i];
+            Label label = new Label(s);
+            label.setAlignment(Pos.CENTER_RIGHT);
+            label.setPrefSize(70, 40);
+            label.setFont(Font.font(null, FontWeight.BOLD, 20));
+            hBox.getChildren().add(label);
+        }
+    }
+
+
+    /**
+     * creates an array with the letters needed for the top and bottom labels
+     * @return the array created
+     */
+    private String[] stringToAdd() {
+        String[] array = new String[8];
+        array[0] = "a";
+        array[1] = "b";
+        array[2] = "c";
+        array[3] = "d";
+        array[4] = "e";
+        array[5] = "f";
+        array[6] = "g";
+        array[7] = "h";
+
+        return array;
+    }
+
+    /**
+     * Creates a buffered file to save the moves done so far
+     * Gets the moves from the TextArea
+     */
+    private void writer()
+    {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(new File("Moves.txt")));
+            writer.write(this.textArea.getText());
+            writer.close();
+        }
+        catch (Exception e) {e.printStackTrace();
+        }
+    }
 
     /**
      * Event handler
@@ -151,111 +249,21 @@ public class Board extends VBox implements View {
                 possibleTakes = gameModel.getPiece(row, col).possibleTakes();
                 possibleMoves = gameModel.getPiece(row, col).possibleMoves();
 
-                if (gameModel.getPiece(row, col).getType().equals("Pawn")) {
-                    pawnSetUp();
-                }
-                if (gameModel.getPiece(row, col).getType().equals("Bishop")) {
-                    bishopSetUp();
-                }
-                if (gameModel.getPiece(row, col).getType().equals("King")) {
-                   kingSetUp();
-                }
-                if (gameModel.getPiece(row, col).getType().equals("Queen")) {
-                    queenSetUp();
-                }
-                if (gameModel.getPiece(row, col).getType().equals("Rook")) {
-                    rookSetUp();
-                }
-                if (gameModel.getPiece(row, col).getType().equals("Knight")) {
-                    knightSetUp();
-                }
-
 
                 highLightMoves();
 
             }
             gameModel.clickPiece(row, col);
+
+            if(!gameModel.getStringToSend().equals("")) {
+                String s = gameModel.getStringToSend();
+                textArea.appendText(s);
+                writer();
+            }
+
             prevMoves = possibleMoves;
+
             updateBoard();
-        }
-    }
-
-
-    private void pawnSetUp() {
-        if (gameModel.getPiece(row, col).getColorAndType().equals("WhitePawn")) {
-            System.out.println("Possible moves for White Pawn in " + "(" + row + "," + col + ") -> " + possibleMoves);
-            System.out.println("Possible takes for White Pawn in " + "(" + row + "," + col + ") -> " + possibleTakes);
-
-            //  System.out.println(gameModel.getPiece(row, col));
-        } else {
-            possibleMoves = gameModel.getPiece(row, col).possibleMoves();
-            System.out.println("Possible moves for Black Pawn in " + "(" + row + "," + col + ") -> " + possibleMoves);
-            System.out.println("Possible takes for Black Pawn in " + "(" + row + "," + col + ") -> " + possibleTakes);
-        }
-    }
-
-    private void bishopSetUp() {
-        if (gameModel.getPiece(row, col).getColorAndType().equals("WhiteBishop")) {
-            System.out.println("Possible moves for White Bishop in " + "(" + row + "," + col + ") -> " + possibleMoves);
-            System.out.println("Possible takes for White Bishop in " + "(" + row + "," + col + ") -> " + possibleTakes);
-
-            //  System.out.println(gameModel.getPiece(row, col));
-        } else {
-            possibleMoves = gameModel.getPiece(row, col).possibleMoves();
-            System.out.println("Possible moves for Black Bishop in " + "(" + row + "," + col + ") -> " + possibleMoves);
-            System.out.println("Possible takes for Black Bishop in " + "(" + row + "," + col + ") -> " + possibleTakes);
-        }
-    }
-
-    private void kingSetUp() {
-        if (gameModel.getPiece(row, col).getColorAndType().equals("WhiteKing")) {
-            System.out.println("Possible moves for White King in " + "(" + row + "," + col + ") -> " + possibleMoves);
-            System.out.println("Possible takes for White King in " + "(" + row + "," + col + ") -> " + possibleTakes);
-
-            //  System.out.println(gameModel.getPiece(row, col));
-        } else {
-            possibleMoves = gameModel.getPiece(row, col).possibleMoves();
-            System.out.println("Possible moves for Black King in " + "(" + row + "," + col + ") -> " + possibleMoves);
-            System.out.println("Possible takes for Black King in " + "(" + row + "," + col + ") -> " + possibleTakes);
-        }
-    }
-
-    private void queenSetUp() {
-        if (gameModel.getPiece(row, col).getColorAndType().equals("WhiteQueen")) {
-            System.out.println("Possible moves for White Queen in " + "(" + row + "," + col + ") -> " + possibleMoves);
-            System.out.println("Possible takes for White Queen in " + "(" + row + "," + col + ") -> " + possibleTakes);
-
-            //  System.out.println(gameModel.getPiece(row, col));
-        } else {
-            possibleMoves = gameModel.getPiece(row, col).possibleMoves();
-            System.out.println("Possible moves for Black Queen in " + "(" + row + "," + col + ") -> " + possibleMoves);
-            System.out.println("Possible takes for Black Queen in " + "(" + row + "," + col + ") -> " + possibleTakes);
-        }
-    }
-
-    private void rookSetUp() {
-        if (gameModel.getPiece(row, col).getColorAndType().equals("WhiteRook")) {
-            System.out.println("Possible moves for White Rook in " + "(" + row + "," + col + ") -> " + possibleMoves);
-            System.out.println("Possible takes for White Rook in " + "(" + row + "," + col + ") -> " + possibleTakes);
-
-            //  System.out.println(gameModel.getPiece(row, col));
-        } else {
-            possibleMoves = gameModel.getPiece(row, col).possibleMoves();
-            System.out.println("Possible moves for Black Rook in " + "(" + row + "," + col + ") -> " + possibleMoves);
-            System.out.println("Possible takes for Black Rook in " + "(" + row + "," + col + ") -> " + possibleTakes);
-        }
-    }
-
-    private void knightSetUp() {
-        if (gameModel.getPiece(row, col).getColorAndType().equals("WhiteKnight")) {
-            System.out.println("Possible moves for White Knight in " + "(" + row + "," + col + ") -> " + possibleMoves);
-            System.out.println("Possible takes for White Knight in " + "(" + row + "," + col + ") -> " + possibleTakes);
-
-            //  System.out.println(gameModel.getPiece(row, col));
-        } else {
-            possibleMoves = gameModel.getPiece(row, col).possibleMoves();
-            System.out.println("Possible moves for Black Knight in " + "(" + row + "," + col + ") -> " + possibleMoves);
-            System.out.println("Possible takes for Black Knight in " + "(" + row + "," + col + ") -> " + possibleTakes);
         }
     }
 
@@ -396,8 +404,6 @@ public class Board extends VBox implements View {
         }
     }
 
-    public Position getPos() {
-        return this.pos;
-    }
+
 }
 

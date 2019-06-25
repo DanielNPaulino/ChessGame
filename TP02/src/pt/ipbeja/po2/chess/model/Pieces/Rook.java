@@ -30,6 +30,10 @@ public class Rook extends Piece {
         this.gameModel = board;
     }
 
+    /**
+     * Creates the possible moves for this class piece
+     * @return List of possible moves
+     */
     @Override
     public List<Position> possibleMoves() {
         List<Position> possibleMovement = new ArrayList<>();
@@ -38,8 +42,8 @@ public class Rook extends Piece {
         int i = row + 1;
         int j = col + 1;
 
-        while (i < gameModel.getSIZE() && gameModel.getPiece(i, col) == null) {
-            if (gameModel.isInside(i, col)) {
+        while (i < this.gameModel.getSIZE() && this.gameModel.getPiece(i, col) == null) {
+            if (this.gameModel.isInside(i, col)) {
                 Position position = new Position(i, col);
                 possibleMovement.add(position);
 
@@ -48,8 +52,8 @@ public class Rook extends Piece {
         }
         i = row - 1;
 
-        while (i >= 0 && gameModel.getPiece(i, col) == null) {
-            if (gameModel.isInside(i, col)) {
+        while (i >= 0 && this.gameModel.getPiece(i, col) == null) {
+            if (this.gameModel.isInside(i, col)) {
                 Position position = new Position(i, col);
                 possibleMovement.add(position);
 
@@ -57,8 +61,8 @@ public class Rook extends Piece {
             }
         }
 
-        while (j < gameModel.getSIZE() && gameModel.getPiece(row, j) == null) {
-            if (gameModel.isInside(row, j)) {
+        while (j < this.gameModel.getSIZE() && this.gameModel.getPiece(row, j) == null) {
+            if (this.gameModel.isInside(row, j)) {
                 Position position = new Position(row, j);
                 possibleMovement.add(position);
 
@@ -67,8 +71,8 @@ public class Rook extends Piece {
         }
 
         j = col - 1;
-        while (j >= 0 && gameModel.getPiece(row, j) == null) {
-            if (gameModel.isInside(row, j)) {
+        while (j >= 0 && this.gameModel.getPiece(row, j) == null) {
+            if (this.gameModel.isInside(row, j)) {
                 Position position = new Position(row, j);
                 possibleMovement.add(position);
 
@@ -79,7 +83,10 @@ public class Rook extends Piece {
         return possibleMovement;
     }
 
-
+    /**
+     * Creates the possible takes for this class piece
+     * @return List of possible takes
+     */
     @Override
     public List<Position> possibleTakes() {
         List<Position> possibleTakes = new ArrayList<>();
@@ -88,13 +95,13 @@ public class Rook extends Piece {
         int i = row + 1;
         int j = col + 1;
 
-        while (i < gameModel.getSIZE() && gameModel.getPiece(i, col) == null) {
-            if (gameModel.isInside(i, col)) {
+        while (i < this.gameModel.getSIZE() && this.gameModel.getPiece(i, col) == null) {
+            if (this.gameModel.isInside(i, col)) {
                 i++;
             }
         }
-        if (gameModel.isInside(i, col)) {
-            if (!(this.getColor().equals(this.gameModel.getPiece(i, col).getColor()) && gameModel.getPiece(i, col) != null)) {
+        if (this.gameModel.isInside(i, col)) {
+            if (!(this.getColor().equals(this.gameModel.getPiece(i, col).getColor()) && this.gameModel.getPiece(i, col) != null)) {
                 {
                     Position position = new Position(i, col);
                     possibleTakes.add(position);
@@ -103,20 +110,20 @@ public class Rook extends Piece {
         }
         i = row - 1;
 
-        while (i >= 0 && gameModel.getPiece(i, col) == null) {
-            if (gameModel.isInside(i, col)) {
+        while (i >= 0 && this.gameModel.getPiece(i, col) == null) {
+            if (this.gameModel.isInside(i, col)) {
                 i--;
             }
         }
         if(this.gameModel.isInside(i,col)) {
-            if (!(this.getColor().equals(this.gameModel.getPiece(i, col).getColor())) && gameModel.getPiece(i, col) != null) {
+            if (!(this.getColor().equals(this.gameModel.getPiece(i, col).getColor())) && this.gameModel.getPiece(i, col) != null) {
                 Position position = new Position(i, col);
                 possibleTakes.add(position);
             }
         }
 
-        while (j < gameModel.getSIZE() && gameModel.getPiece(row, j) == null) {
-            if (gameModel.isInside(row, j)) {
+        while (j < this.gameModel.getSIZE() && this.gameModel.getPiece(row, j) == null) {
+            if (this.gameModel.isInside(row, j)) {
                 j++;
             }
         }
@@ -143,7 +150,7 @@ public class Rook extends Piece {
     }
 
     public String movementText(Position begin, Position end) {
-        return null;
+        return begin+""+end;
     }
 
     @Override

@@ -27,6 +27,10 @@ public class King extends Piece {
         this.gameModel = board;
     }
 
+    /**
+     * Creates the possible moves for this class piece
+     * @return List of possible moves
+     */
     @Override
     public List<Position> possibleMoves() {
         int col = this.getPosition().getCol();
@@ -47,6 +51,10 @@ public class King extends Piece {
         return possibleMovement;
     }
 
+    /**
+     * Creates the possible takes for this class piece
+     * @return List of possible takes
+     */
     @Override
     public List<Position> possibleTakes() {
         List<Position> possibleTakes = new ArrayList<>();
@@ -58,7 +66,7 @@ public class King extends Piece {
             for (int j = -1; j <= 1; j++) {
                 if (this.gameModel.isInside(row + i, col + j)) {
                     if (this.gameModel.getPiece(row + i, col + j) != null) {
-                        if (!this.getPosition().equals(gameModel.getPiece(row + i, col + j).getColor())) {
+                        if (!this.getColor().equals(this.gameModel.getPiece(row + i, col + j).getColor())) {
                             Position pos = new Position(row + i, col + j);
                             possibleTakes.add(pos);
                         }
@@ -70,7 +78,7 @@ public class King extends Piece {
     }
 
     public String movementText(Position begin, Position end) {
-        return null;
+        return begin+""+end;
     }
 
     @Override

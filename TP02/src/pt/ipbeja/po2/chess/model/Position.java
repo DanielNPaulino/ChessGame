@@ -29,27 +29,6 @@ public class Position {
     }
 
 
-    /**
-     * Checks if position is inside the board
-     *
-     * @return true if inside, false otherwise
-     */
-    public boolean isInside() {
-        return Position.isInside(this.getLine(), this.getCol());
-    }
-
-    /**
-     * Checks if line col are inside tha board
-     *
-     * @param line
-     * @param col
-     * @return true if inside, false otherwise
-     */
-    public static boolean isInside(int line, int col) {
-        return 0 <= line && line < 8 &&
-                0 <= col && col < 8;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

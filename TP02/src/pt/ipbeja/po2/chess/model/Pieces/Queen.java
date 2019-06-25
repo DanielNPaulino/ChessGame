@@ -29,6 +29,10 @@ public class Queen extends Piece {
         this.gameModel = board;
     }
 
+    /**
+     * Creates the possible moves for this class piece
+     * @return List of possible moves
+     */
     @Override
     public List<Position> possibleMoves() {
         List<Position> possibleMovement = new ArrayList<>();
@@ -38,6 +42,9 @@ public class Queen extends Piece {
         return possibleMovement;
     }
 
+    /**
+     * @return List of possible takes
+     */
     @Override
     public List<Position> possibleTakes() {
         List<Position> possibleTakes = new ArrayList<>();
@@ -47,31 +54,11 @@ public class Queen extends Piece {
         return possibleTakes;
     }
 
-    public String movementText(Position begin, Position end) {
-        return null;
-    }
 
-    @Override
-
-    public String toString() {
-        return this.colorAndType + this.position;
-    }
-
-    @Override
-    public String getColorAndType() {
-        return this.colorAndType;
-    }
-
-    @Override
-    public String getColor() {
-        return this.playerColor + "";
-    }
-
-    @Override
-    public String getType() {
-        return this.type;
-    }
-
+    /**
+     * * Creates the possible moves diagonally for this class piece
+     * @return list of possible moves
+     */
     private List<Position> goDiag() {
 
         List<Position> possibleMovement = new ArrayList<>();
@@ -80,8 +67,8 @@ public class Queen extends Piece {
         int i = row + 1;
         int j = col + 1;
 
-        while (i < gameModel.getSIZE() && j < gameModel.getSIZE() && gameModel.getPiece(i, j) == null) {
-            if (gameModel.isInside(i, j)) {
+        while (i < this.gameModel.getSIZE() && j < this.gameModel.getSIZE() && this.gameModel.getPiece(i, j) == null) {
+            if (this.gameModel.isInside(i, j)) {
                 Position position = new Position(i, j);
                 possibleMovement.add(position);
 
@@ -92,8 +79,8 @@ public class Queen extends Piece {
         i = row - 1;
         j = col - 1;
 
-        while (i >= 0 && j >= 0 && gameModel.getPiece(i, j) == null) {
-            if (gameModel.isInside(i, j)) {
+        while (i >= 0 && j >= 0 && this.gameModel.getPiece(i, j) == null) {
+            if (this.gameModel.isInside(i, j)) {
                 Position position = new Position(i, j);
                 possibleMovement.add(position);
 
@@ -103,8 +90,8 @@ public class Queen extends Piece {
         }
         i = row + 1;
         j = col - 1;
-        while (i < gameModel.getSIZE() && j >= 0 && gameModel.getPiece(i, j) == null) {
-            if (gameModel.isInside(i, j)) {
+        while (i < this.gameModel.getSIZE() && j >= 0 && this.gameModel.getPiece(i, j) == null) {
+            if (this.gameModel.isInside(i, j)) {
                 Position position = new Position(i, j);
                 possibleMovement.add(position);
 
@@ -114,8 +101,8 @@ public class Queen extends Piece {
         }
         i = row - 1;
         j = col + 1;
-        while (i >= 0 && j < gameModel.getSIZE() && gameModel.getPiece(i, j) == null) {
-            if (gameModel.isInside(i, j)) {
+        while (i >= 0 && j < this.gameModel.getSIZE() && this.gameModel.getPiece(i, j) == null) {
+            if (this.gameModel.isInside(i, j)) {
                 Position position = new Position(i, j);
                 possibleMovement.add(position);
 
@@ -126,8 +113,10 @@ public class Queen extends Piece {
         return possibleMovement;
     }
 
-
-
+    /**
+     * Creates the possible moves for this class piece
+     * @return List of possible takes vertically and horizontally
+     */
     private List<Position> goHorVer() {
         List<Position> possibleMovement = new ArrayList<>();
         int col = this.getPosition().getCol();
@@ -135,8 +124,8 @@ public class Queen extends Piece {
         int i = row + 1;
         int j = col + 1;
 
-        while (i < gameModel.getSIZE() && gameModel.getPiece(i, col) == null) {
-            if (gameModel.isInside(i, col)) {
+        while (i < this.gameModel.getSIZE() && this.gameModel.getPiece(i, col) == null) {
+            if (this.gameModel.isInside(i, col)) {
                 Position position = new Position(i, col);
                 possibleMovement.add(position);
 
@@ -145,8 +134,8 @@ public class Queen extends Piece {
         }
         i = row - 1;
 
-        while (i >= 0 && gameModel.getPiece(i, col) == null) {
-            if (gameModel.isInside(i, col)) {
+        while (i >= 0 && this.gameModel.getPiece(i, col) == null) {
+            if (this.gameModel.isInside(i, col)) {
                 Position position = new Position(i, col);
                 possibleMovement.add(position);
 
@@ -154,8 +143,8 @@ public class Queen extends Piece {
             }
         }
 
-        while (j < gameModel.getSIZE() && gameModel.getPiece(row, j) == null) {
-            if (gameModel.isInside(row, j)) {
+        while (j < this.gameModel.getSIZE() && this.gameModel.getPiece(row, j) == null) {
+            if (this.gameModel.isInside(row, j)) {
                 Position position = new Position(row, j);
                 possibleMovement.add(position);
 
@@ -164,8 +153,8 @@ public class Queen extends Piece {
         }
 
         j = col - 1;
-        while (j >= 0 && gameModel.getPiece(row, j) == null) {
-            if (gameModel.isInside(row, j)) {
+        while (j >= 0 && this.gameModel.getPiece(row, j) == null) {
+            if (this.gameModel.isInside(row, j)) {
                 Position position = new Position(row, j);
                 possibleMovement.add(position);
 
@@ -176,6 +165,10 @@ public class Queen extends Piece {
         return possibleMovement;
     }
 
+    /**
+     * Creates the possible moves for this class piece
+     * @return List of possible takes diagonally
+     */
     private List<Position> goDiagTakes() {
 
         List<Position> possibleTakes = new ArrayList<>();
@@ -185,14 +178,14 @@ public class Queen extends Piece {
         int i = row + 1;
         int j = col + 1;
 
-        while (i < gameModel.getSIZE() && j < gameModel.getSIZE() && gameModel.getPiece(i, j) == null) {
-            if (gameModel.isInside(i, j)) {
+        while (i < this.gameModel.getSIZE() && j < this.gameModel.getSIZE() && this.gameModel.getPiece(i, j) == null) {
+            if (this.gameModel.isInside(i, j)) {
                 i++;
                 j++;
             }
         }
-        if (gameModel.isInside(i, j)) {
-            if (!(this.getColor().equals(this.gameModel.getPiece(i, j).getColor()) && gameModel.getPiece(i, j) != null)) {
+        if (this.gameModel.isInside(i, j)) {
+            if (!(this.getColor().equals(this.gameModel.getPiece(i, j).getColor()) && this.gameModel.getPiece(i, j) != null)) {
                 {
                     Position position = new Position(i, j);
                     possibleTakes.add(position);
@@ -202,14 +195,14 @@ public class Queen extends Piece {
         i = row - 1;
         j = col - 1;
 
-        while (i >= 0 && j >= 0 && gameModel.getPiece(i, j) == null) {
-            if (gameModel.isInside(i, j)) {
+        while (i >= 0 && j >= 0 && this.gameModel.getPiece(i, j) == null) {
+            if (this.gameModel.isInside(i, j)) {
                 i--;
                 j--;
             }
         }
-        if (gameModel.isInside(i, j)) {
-            if (!(this.getColor().equals(this.gameModel.getPiece(i, j).getColor()) && gameModel.getPiece(i, j) != null)) {
+        if (this.gameModel.isInside(i, j)) {
+            if (!(this.getColor().equals(this.gameModel.getPiece(i, j).getColor()) && this.gameModel.getPiece(i, j) != null)) {
                 {
                     Position position = new Position(i, j);
                     possibleTakes.add(position);
@@ -220,14 +213,14 @@ public class Queen extends Piece {
         i = row + 1;
         j = col - 1;
 
-        while (i < gameModel.getSIZE() && j >= 0 && gameModel.getPiece(i, j) == null) {
-            if (gameModel.isInside(i, j)) {
+        while (i < this.gameModel.getSIZE() && j >= 0 && this.gameModel.getPiece(i, j) == null) {
+            if (this.gameModel.isInside(i, j)) {
                 i++;
                 j--;
             }
         }
-        if (gameModel.isInside(i, j)) {
-            if (!(this.getColor().equals(this.gameModel.getPiece(i, j).getColor()) && gameModel.getPiece(i, j) != null)) {
+        if (this.gameModel.isInside(i, j)) {
+            if (!(this.getColor().equals(this.gameModel.getPiece(i, j).getColor()) && this.gameModel.getPiece(i, j) != null)) {
                 {
                     Position position = new Position(i, j);
                     possibleTakes.add(position);
@@ -237,14 +230,14 @@ public class Queen extends Piece {
         i = row - 1;
         j = col + 1;
 
-        while (i >= 0 && j < gameModel.getSIZE() && gameModel.getPiece(i, j) == null) {
-            if (gameModel.isInside(i, j)) {
+        while (i >= 0 && j < this.gameModel.getSIZE() && this.gameModel.getPiece(i, j) == null) {
+            if (this.gameModel.isInside(i, j)) {
                 i--;
                 j++;
             }
         }
-        if (gameModel.isInside(i, j)) {
-            if (!(this.getColor().equals(this.gameModel.getPiece(i, j).getColor()) && gameModel.getPiece(i, j) != null)) {
+        if (this.gameModel.isInside(i, j)) {
+            if (!(this.getColor().equals(this.gameModel.getPiece(i, j).getColor()) && this.gameModel.getPiece(i, j) != null)) {
                 {
                     Position position = new Position(i, j);
                     possibleTakes.add(position);
@@ -255,6 +248,10 @@ public class Queen extends Piece {
         return possibleTakes;
     }
 
+    /**
+     * gather the Lists of possible takes
+     * @return List of possible takes vertically and horizontally
+     */
     private List<Position> goHorVerTakes(){
 
         List<Position> possibleTakes = new ArrayList<>();
@@ -263,13 +260,13 @@ public class Queen extends Piece {
         int i = row + 1;
         int j = col + 1;
 
-        while (i < gameModel.getSIZE() && gameModel.getPiece(i, col) == null) {
-            if (gameModel.isInside(i, col)) {
+        while (i < this.gameModel.getSIZE() && this.gameModel.getPiece(i, col) == null) {
+            if (this.gameModel.isInside(i, col)) {
                 i++;
             }
         }
-        if (gameModel.isInside(i, col)) {
-            if (!(this.getColor().equals(this.gameModel.getPiece(i, col).getColor()) && gameModel.getPiece(i, col) != null)) {
+        if (this.gameModel.isInside(i, col)) {
+            if (!(this.getColor().equals(this.gameModel.getPiece(i, col).getColor()) && this.gameModel.getPiece(i, col) != null)) {
                 {
                     Position position = new Position(i, col);
                     possibleTakes.add(position);
@@ -278,20 +275,20 @@ public class Queen extends Piece {
         }
         i = row - 1;
 
-        while (i >= 0 && gameModel.getPiece(i, col) == null) {
-            if (gameModel.isInside(i, col)) {
+        while (i >= 0 && this.gameModel.getPiece(i, col) == null) {
+            if (this.gameModel.isInside(i, col)) {
                 i--;
             }
         }
         if(this.gameModel.isInside(i,col)) {
-            if (!(this.getColor().equals(this.gameModel.getPiece(i, col).getColor())) && gameModel.getPiece(i, col) != null) {
+            if (!(this.getColor().equals(this.gameModel.getPiece(i, col).getColor())) && this.gameModel.getPiece(i, col) != null) {
                 Position position = new Position(i, col);
                 possibleTakes.add(position);
             }
         }
 
-        while (j < gameModel.getSIZE() && gameModel.getPiece(row, j) == null) {
-            if (gameModel.isInside(row, j)) {
+        while (j < this.gameModel.getSIZE() && this.gameModel.getPiece(row, j) == null) {
+            if (this.gameModel.isInside(row, j)) {
                 j++;
             }
         }
@@ -317,5 +314,29 @@ public class Queen extends Piece {
         return possibleTakes;
     }
 
+    public String movementText(Position begin, Position end) {
+        return begin+""+end;
+    }
+
+    @Override
+
+    public String toString() {
+        return this.colorAndType + this.position;
+    }
+
+    @Override
+    public String getColorAndType() {
+        return this.colorAndType;
+    }
+
+    @Override
+    public String getColor() {
+        return this.playerColor + "";
+    }
+
+    @Override
+    public String getType() {
+        return this.type;
+    }
 
 }

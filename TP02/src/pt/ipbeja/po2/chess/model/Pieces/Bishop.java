@@ -27,6 +27,10 @@ public class Bishop extends Piece {
         this.gameModel = board;
     }
 
+    /**
+     * Creates the possible moves for this class piece
+     * @return List of possible moves
+     */
     @Override
     public List<Position> possibleMoves() {
         List<Position> possibleMovement = new ArrayList<>();
@@ -35,22 +39,19 @@ public class Bishop extends Piece {
         int i = row + 1;
         int j = col + 1;
 
-        while (i < gameModel.getSIZE() && j < gameModel.getSIZE() && gameModel.getPiece(i, j) == null) {
-            if (gameModel.isInside(i, j)) {
-
+        while (i < this.gameModel.getSIZE() && j < this.gameModel.getSIZE() && this.gameModel.getPiece(i, j) == null) {
+            if (this.gameModel.isInside(i, j)) {
                 Position position = new Position(i, j);
                 possibleMovement.add(position);
-
                 i++;
                 j++;
-
             }
         }
         i = row - 1;
         j = col - 1;
 
-        while (i >= 0 && j >= 0 && gameModel.getPiece(i, j) == null) {
-            if (gameModel.isInside(i, j)) {
+        while (i >= 0 && j >= 0 && this.gameModel.getPiece(i, j) == null) {
+            if (this.gameModel.isInside(i, j)) {
 
                 Position position = new Position(i, j);
                 possibleMovement.add(position);
@@ -62,8 +63,8 @@ public class Bishop extends Piece {
         }
         i = row + 1;
         j = col - 1;
-        while (i < gameModel.getSIZE() && j >= 0 && gameModel.getPiece(i, j) == null) {
-            if (gameModel.isInside(i, j)) {
+        while (i < this.gameModel.getSIZE() && j >= 0 && this.gameModel.getPiece(i, j) == null) {
+            if (this.gameModel.isInside(i, j)) {
 
                 Position position = new Position(i, j);
                 possibleMovement.add(position);
@@ -75,8 +76,8 @@ public class Bishop extends Piece {
         }
         i = row - 1;
         j = col + 1;
-        while (i >= 0 && j < gameModel.getSIZE() && gameModel.getPiece(i, j) == null) {
-            if (gameModel.isInside(i, j)) {
+        while (i >= 0 && j < this.gameModel.getSIZE() && this.gameModel.getPiece(i, j) == null) {
+            if (this.gameModel.isInside(i, j)) {
 
                 Position position = new Position(i, j);
                 possibleMovement.add(position);
@@ -89,6 +90,11 @@ public class Bishop extends Piece {
         return possibleMovement;
     }
 
+
+    /**
+     * Creates the possible takes for this class piece
+     * @return List of possible takes
+     */
     @Override
     public List<Position> possibleTakes() {
 
@@ -99,14 +105,14 @@ public class Bishop extends Piece {
         int i = row + 1;
         int j = col + 1;
 
-        while (i < gameModel.getSIZE() && j < gameModel.getSIZE() && gameModel.getPiece(i, j) == null) {
-            if (gameModel.isInside(i, j)) {
+        while (i < this.gameModel.getSIZE() && j < this.gameModel.getSIZE() && this.gameModel.getPiece(i, j) == null) {
+            if (this.gameModel.isInside(i, j)) {
                 i++;
                 j++;
             }
         }
-        if (gameModel.isInside(i, j)) {
-            if (!(this.getColor().equals(this.gameModel.getPiece(i, j).getColor()) && gameModel.getPiece(i, j) != null)) {
+        if (this.gameModel.isInside(i, j)) {
+            if (!(this.getColor().equals(this.gameModel.getPiece(i, j).getColor()) && this.gameModel.getPiece(i, j) != null)) {
                 {
                     Position position = new Position(i, j);
                     possibleTakes.add(position);
@@ -116,14 +122,14 @@ public class Bishop extends Piece {
         i = row - 1;
         j = col - 1;
 
-        while (i >= 0 && j >= 0 && gameModel.getPiece(i, j) == null) {
-            if (gameModel.isInside(i, j)) {
+        while (i >= 0 && j >= 0 && this.gameModel.getPiece(i, j) == null) {
+            if (this.gameModel.isInside(i, j)) {
                 i--;
                 j--;
             }
         }
-        if (gameModel.isInside(i, j)) {
-            if (!(this.getColor().equals(this.gameModel.getPiece(i, j).getColor()) && gameModel.getPiece(i, j) != null)) {
+        if (this.gameModel.isInside(i, j)) {
+            if (!(this.getColor().equals(this.gameModel.getPiece(i, j).getColor()) && this.gameModel.getPiece(i, j) != null)) {
                 {
                     Position position = new Position(i, j);
                     possibleTakes.add(position);
@@ -134,14 +140,14 @@ public class Bishop extends Piece {
         i = row + 1;
         j = col - 1;
 
-        while (i < gameModel.getSIZE() && j >= 0 && gameModel.getPiece(i, j) == null) {
-            if (gameModel.isInside(i, j)) {
+        while (i < this.gameModel.getSIZE() && j >= 0 && this.gameModel.getPiece(i, j) == null) {
+            if (this.gameModel.isInside(i, j)) {
                 i++;
                 j--;
             }
         }
-        if (gameModel.isInside(i, j)) {
-            if (!(this.getColor().equals(this.gameModel.getPiece(i, j).getColor()) && gameModel.getPiece(i, j) != null)) {
+        if (this.gameModel.isInside(i, j)) {
+            if (!(this.getColor().equals(this.gameModel.getPiece(i, j).getColor()) && this.gameModel.getPiece(i, j) != null)) {
                 {
                     Position position = new Position(i, j);
                     possibleTakes.add(position);
@@ -151,14 +157,14 @@ public class Bishop extends Piece {
         i = row - 1;
         j = col + 1;
 
-        while (i >= 0 && j < gameModel.getSIZE() && gameModel.getPiece(i, j) == null) {
-            if (gameModel.isInside(i, j)) {
+        while (i >= 0 && j < this.gameModel.getSIZE() && this.gameModel.getPiece(i, j) == null) {
+            if (this.gameModel.isInside(i, j)) {
                 i--;
                 j++;
             }
         }
-        if (gameModel.isInside(i, j)) {
-            if (!(this.getColor().equals(this.gameModel.getPiece(i, j).getColor()) && gameModel.getPiece(i, j) != null)) {
+        if (this.gameModel.isInside(i, j)) {
+            if (!(this.getColor().equals(this.gameModel.getPiece(i, j).getColor()) && this.gameModel.getPiece(i, j) != null)) {
                 {
                     Position position = new Position(i, j);
                     possibleTakes.add(position);
@@ -169,8 +175,15 @@ public class Bishop extends Piece {
         return possibleTakes;
     }
 
+
+
+
+
+
+
+
     public String movementText(Position begin, Position end) {
-        return null;
+        return begin+""+end;
     }
 
     @Override

@@ -28,6 +28,8 @@ public abstract class Piece {
 
     public abstract List<Position> possibleTakes();
 
+    public abstract String movementText(Position position, Position position1);
+
     public abstract String getColorAndType();
 
     public abstract String getColor();

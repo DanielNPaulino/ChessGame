@@ -28,60 +28,68 @@ public class Knight extends Piece {
         this.gameModel = board;
     }
 
+    /**
+     * Creates the possible moves for this class piece
+     * @return List of possible moves
+     */
     @Override
     public List<Position> possibleMoves() {
         List<Position> possibleMovement = new ArrayList<>();
         int col = this.getPosition().getCol();
         int row = this.getPosition().getLine();
 
-        if(gameModel.isInside(row-2,col-1) && gameModel.getPiece(row-2,col-1) == null) {
+        if(this.gameModel.isInside(row-2,col-1) && this.gameModel.getPiece(row-2,col-1) == null) {
             Position position = new Position(row - 2, col - 1);
             possibleMovement.add(position);
         }
-        if(gameModel.isInside(row-2,col+1) && gameModel.getPiece(row-2,col+1) == null) {
+        if(this.gameModel.isInside(row-2,col+1) && this.gameModel.getPiece(row-2,col+1) == null) {
             Position position = new Position(row - 2, col + 1);
             possibleMovement.add(position);
         }
-        if(gameModel.isInside(row+2,col-1) && gameModel.getPiece(row+2,col-1) == null) {
+        if(this.gameModel.isInside(row+2,col-1) && this.gameModel.getPiece(row+2,col-1) == null) {
             Position position = new Position(row + 2, col - 1);
             possibleMovement.add(position);
         }
-        if(gameModel.isInside(row+2,col+1) && gameModel.getPiece(row+2,col+1) == null) {
+        if(this.gameModel.isInside(row+2,col+1) && this.gameModel.getPiece(row+2,col+1) == null) {
             Position position = new Position(row+2,col+1);
             possibleMovement.add(position);}
 
         return possibleMovement;
     }
 
+    /**
+     * Creates the possible takes for this class piece
+     * @return List of possible takes
+     */
     @Override
     public List<Position> possibleTakes() {
         List<Position> possibleTakes = new ArrayList<>();
         int col = this.getPosition().getCol();
         int row = this.getPosition().getLine();
 
-        if(gameModel.isInside(row-2,col-1) && gameModel.getPiece(row-2,col-1) != null) {
-            if(!this.getColor().equals(gameModel.getPiece(row-2,col-1).getColor())){
+        if(this.gameModel.isInside(row-2,col-1) && this.gameModel.getPiece(row-2,col-1) != null) {
+            if(!this.getColor().equals(this.gameModel.getPiece(row-2,col-1).getColor())){
             Position position = new Position(row - 2, col - 1);
             possibleTakes.add(position);
             }
         }
-        if(gameModel.isInside(row+2,col+1) && gameModel.getPiece(row+2,col+1) != null) {
+        if(this.gameModel.isInside(row+2,col+1) && this.gameModel.getPiece(row+2,col+1) != null) {
 
-            if(!this.getColor().equals(gameModel.getPiece(row+2,col+1).getColor())){
+            if(!this.getColor().equals(this.gameModel.getPiece(row+2,col+1).getColor())){
                 Position position = new Position(row + 2, col + 1);
                 possibleTakes.add(position);
             }
         }
-        if(gameModel.isInside(row-2,col+1) && gameModel.getPiece(row-2,col+1) != null) {
+        if(this.gameModel.isInside(row-2,col+1) && this.gameModel.getPiece(row-2,col+1) != null) {
 
-            if(!this.getColor().equals(gameModel.getPiece(row-2,col+1).getColor())){
+            if(!this.getColor().equals(this.gameModel.getPiece(row-2,col+1).getColor())){
                 Position position = new Position(row - 2, col + 1);
                 possibleTakes.add(position);
             }
         }
-        if(gameModel.isInside(row+2,col-1) && gameModel.getPiece(row+2,col-1) != null) {
+        if(this.gameModel.isInside(row+2,col-1) && this.gameModel.getPiece(row+2,col-1) != null) {
 
-            if(!this.getColor().equals(gameModel.getPiece(row+2,col-1).getColor())){
+            if(!this.getColor().equals(this.gameModel.getPiece(row+2,col-1).getColor())){
                 Position position = new Position(row + 2, col - 1);
                 possibleTakes.add(position);
             }
@@ -92,7 +100,7 @@ public class Knight extends Piece {
     }
 
     public String movementText(Position begin, Position end){
-        return null;
+        return begin+""+end;
     }
 
     @Override
